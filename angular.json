@@ -125,6 +125,129 @@
           }
         }
       }
+    },
+    "service": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/service",
+      "sourceRoot": "projects/service/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/service",
+            "index": "projects/service/src/index.html",
+            "main": "projects/service/src/main.ts",
+            "polyfills": "projects/service/src/polyfills.ts",
+            "tsConfig": "projects/service/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/service/src/favicon.ico",
+              "projects/service/src/assets"
+            ],
+            "styles": [
+              "projects/service/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/service/src/environments/environment.ts",
+                  "with": "projects/service/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "service:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "service:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "service:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/service/src/test.ts",
+            "polyfills": "projects/service/src/polyfills.ts",
+            "tsConfig": "projects/service/tsconfig.spec.json",
+            "karmaConfig": "projects/service/karma.conf.js",
+            "assets": [
+              "projects/service/src/favicon.ico",
+              "projects/service/src/assets"
+            ],
+            "styles": [
+              "projects/service/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/service/tsconfig.app.json",
+              "projects/service/tsconfig.spec.json",
+              "projects/service/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/service/e2e/protractor.conf.js",
+            "devServerTarget": "service:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "service:serve:production"
+            }
+          }
+        }
+      }
     }
   },
   "defaultProject": "reusable-polling"
